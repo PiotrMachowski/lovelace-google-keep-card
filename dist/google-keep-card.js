@@ -176,13 +176,13 @@ class GoogleKeepCard extends LitElement {
         return html``;
     }
 
-    renderLine(line, striketrough = false) {
+    renderLine(line, strikethrough = false) {
         let trimmed = line.replace(/^ +/, '');
         let trimmedLength = trimmed.length;
         if (trimmedLength > 0) {
             let prefix = '\xa0'.repeat((line.length - trimmedLength) * 2);
             let suffix = trimmed.substr(1);
-            if (striketrough) {
+            if (strikethrough) {
                 suffix = html`<s>${suffix}</s>`
             }
             if (trimmed[0] === '\u2610') {
