@@ -26,19 +26,6 @@ views:
       alpha: 0.7
 ```
 
-## Installation
-1. Download [*google-keep-card.js*](https://github.com/PiotrMachowski/Lovelace-Google-Keep-card/raw/master/dist/google-keep-card.js) to `/www/custom_lovelace/google_keep_card` directory:
-    ```bash
-    mkdir -p www/custom_lovelace/google_keep_card
-    cd www/custom_lovelace/google_keep_card/
-    wget https://github.com/PiotrMachowski/Lovelace-Google-Keep-card/raw/master/dist/google-keep-card.js
-    ```
-2. Add card to resources in `ui-lovelace.yaml` or in raw editor if you are using frontend UI editor:
-    ```yaml
-    resources:
-      - url: /local/custom_lovelace/google_keep_card/google-keep-card.js
-        type: module
-    ```
 ## FAQ
 * **Does this card allow editing notes?**
   
