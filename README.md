@@ -1,6 +1,6 @@
 # Lovelace Google Keep card
 
-This is a companion card for Google Keep sensor. It displays notes downloaded by integration in a friendly way, similar to Google Keep app.
+This is a companion card for [Google Keep sensor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Google-Keep). It displays notes downloaded by integration in a friendly way, similar to Google Keep app.
 
 ![Example](https://github.com/PiotrMachowski/Lovelace-Google-Keep-card/blob/master/s1.png)
 
