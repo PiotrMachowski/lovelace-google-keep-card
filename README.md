@@ -13,6 +13,7 @@ This is a companion card for [Google Keep sensor](https://github.com/PiotrMachow
 | `entity` | `string` | `True` | - | ID of Google Keep sensor |
 | `theme` | `string` | `False` | `light` | Theme to be used for notes. Possible values: `light`, `dark` |
 | `alpha` | `float` | `False` | 1 | Level of transparency used for notes (0 - fully transparent, 1 - not transparent) |
+| `show` | `list` | `True` | - | List of sections that should be displayed. Possible values: `checked`, `unchecked` |
 
 
 ## Example usage:
@@ -24,6 +25,9 @@ views:
       entity: sensor.google_keep_12345
       theme: dark
       alpha: 0.7
+      show:
+        - checked
+        - unchecked
 ```
 
 ## Installation
