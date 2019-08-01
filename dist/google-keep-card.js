@@ -70,6 +70,13 @@ class GoogleKeepCard extends LitElement {
         if (config.alpha && (config.alpha > 1 || config.alpha < 0)) {
             throw new Error("Invalid alpha value");
         }
+        if (!config.show) {
+            throw new Error("Missing configuration: show");
+        }
+        const {show} = this._config;
+        if(!Arrays.isArray(show) || !show.includes('unchecked') && !show.includes('checked')) {
+            throw new Error("Missing configuration values for key: show");
+        }
         this._theme = config.theme || themeLight;
         this._alpha = config.alpha || 1;
         this._config = config;
