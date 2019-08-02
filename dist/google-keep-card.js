@@ -73,7 +73,7 @@ class GoogleKeepCard extends LitElement {
         if (!config.show) {
             throw new Error("Missing configuration: show");
         }
-        const {show} = this._config;
+        const {show} = config;
         if(!Arrays.isArray(show) || !show.includes('unchecked') && !show.includes('checked')) {
             throw new Error("Missing configuration values for key: show");
         }
