@@ -74,7 +74,7 @@ class GoogleKeepCard extends LitElement {
             throw new Error("Missing configuration: show");
         }
         const {show} = config;
-        if(!Arrays.isArray(show) || !show.includes('unchecked') && !show.includes('checked')) {
+        if(!Array.isArray(show) || !show.includes('unchecked') && !show.includes('checked')) {
             throw new Error("Missing configuration values for key: show");
         }
         this._theme = config.theme || themeLight;
