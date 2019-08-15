@@ -74,7 +74,7 @@ class GoogleKeepCard extends LitElement {
             throw new Error("Missing configuration: show");
         }
         const {show} = config;
-        if(!Array.isArray(show) || !show.includes('unchecked') && !show.includes('checked')) {
+        if (!Array.isArray(show) || !show.includes('unchecked') && !show.includes('checked')) {
             throw new Error("Missing configuration values for key: show");
         }
         this._theme = config.theme || themeLight;
@@ -99,6 +99,9 @@ class GoogleKeepCard extends LitElement {
 
     render() {
         const {notes} = this._hass.states[this._config.entity].attributes;
+        if (notes.length && this._config.hide_if_empty) {
+            return html``;
+        }
         const title = this._config.title ? html`<div class="card-header" style="padding: 8px 0 16px 0;"><div class="name">${this._config.title}</div></div>` : html``;
         const emptyScreen = notes.length ? html`` : html`<p style="text-align: center">No notes found!</p>`;
         return html`
