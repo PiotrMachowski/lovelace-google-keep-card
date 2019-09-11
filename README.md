@@ -1,5 +1,8 @@
 # Lovelace Google Keep card
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
+[![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg?style=popout)](https://community.home-assistant.io/t/google-keep-custom-component-and-lovelace-card/131752)
+
 This is a companion card for [Google Keep sensor](https://github.com/PiotrMachowski/Home-Assistant-custom-components-Google-Keep). It displays notes downloaded by integration in a friendly way, similar to Google Keep app.
 
 ![Example](https://github.com/PiotrMachowski/Lovelace-Google-Keep-card/blob/master/s1.png)
