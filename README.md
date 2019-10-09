@@ -51,3 +51,5 @@ views:
 * **Does this card allow editing notes?**
   
   No, right now it provides read-only view of notes.
+
+<a href="https://www.buymeacoffee.com/PiotrMachowski" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
