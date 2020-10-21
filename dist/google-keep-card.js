@@ -153,7 +153,7 @@ class GoogleKeepCard extends LitElement {
     renderTextNote(note) {
         return html`
 <div class="noteBackground" style="background:${this.getColor(note['color'])};">
-    <p class="noteTitle"><a target="_blank" href="${note['url']}">${note['title']}</a></p>
+    <p class="noteTitle">${(typeof note['url']!= "undefined") ? html`<a target="_blank" href="${note['url']}">${note['title']}</a>` : html`${note['title']}` }</p>
     <p class="noteBody">${note['lines'].map(line => this.renderLine(line))}</p>
 </div>`
     }
