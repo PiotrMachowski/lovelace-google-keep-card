@@ -3,7 +3,7 @@ var html = LitElement.prototype.html;
 
 const themeLight = "light";
 const themeDark = "dark";
-const themes = [themeLight, themeDark];
+const themes = ['light', 'dark', 'auto'];
 const colors = {
     'White': ['#ffffff', '#2d2e30'],
     'Red': ['#f28b82', '#5c2b29'],
@@ -16,7 +16,7 @@ const colors = {
     'Purple': ['#d7aefb', '#42275e'],
     'Pink': ['#fdcfe8', '#5b2245'],
     'Brown': ['#e6c9a8', '#442f19'],
-    'Grey': ['#e8eaed', '#3c3f43'],
+    'Gray': ['#e8eaed', '#3c3f43'],
 };
 const textColors = {
     "light": "#000000",
@@ -32,6 +32,10 @@ class GoogleKeepCard extends LitElement {
     getColor(colorName) {
         const hex = colors[colorName][themes.indexOf(this._theme)];
         const {r, g, b} = GoogleKeepCard.hexToRgb(hex);
+        return `rgba(${r}, ${g}, ${b}, ${this._alpha})`;
+    }
+    addAlphaToColor(hexColor) {
+        const {r, g, b} = GoogleKeepCard.hexToRgb(hexColor);
         return `rgba(${r}, ${g}, ${b}, ${this._alpha})`;
     }
 
@@ -75,7 +79,7 @@ class GoogleKeepCard extends LitElement {
         if (!Array.isArray(show) || !show.includes('unchecked') && !show.includes('checked')) {
             throw new Error("Missing configuration values for key: show");
         }
-        this._theme = config.theme || themeLight;
+        this._theme = config.theme || 'auto';
         this._alpha = config.alpha || 1;
         this._config = config;
     }
@@ -103,39 +107,191 @@ class GoogleKeepCard extends LitElement {
         const title = this._config.title ? html`<div class="card-header" style="padding: 8px 0 16px 0;"><div class="name">${this._config.title}</div></div>` : html``;
         const emptyScreen = notes.length ? html`` : html`<p style="text-align: center">No notes found!</p>`;
         return html`
-        <ha-card id="googleKeepCard" style="padding: 16px">
+        <ha-card id="googleKeepCard" style="padding: 16px" class="${this._theme == 'auto'? (this._hass.themes.darkMode ? 'dark' : 'light') : this._theme}">
             <style>
-              paper-checkbox {
-                pointer-events: none;
-                --paper-checkbox-label-color: ${this.getTextColor()};
-                --paper-checkbox-unchecked-color: ${this.getTextColor()};
-                --paper-checkbox-checkmark-color: ${this.getCheckedColor()};
-                --paper-checkbox-label-checked-color: ${this.getCheckedColor()};
-              }
-              div.noteBackground {
-                padding:10px;
-                border-radius:5px;
-                margin:5px;
-              }
-              p.noteTitle {
-                font-weight: bold;
-                margin: 0 0 10px 10px;
-                font-size: 120%;
-                color: ${this.getTextColor()};
-              }
-              p.noteTitle > a, p.noteTitle > a:visited, p.noteTitle > a:link {
-                color: ${this.getTextColor()};
-              }
-              p.noteBody {
-                margin: -3px;
-              }
-              div.noteLine {
-                margin: 3px;
-              }
-              hr {
-                margin: 10px 0;
-                border: 1px solid ${this.getTextColor()};
-              }
+                #googleKeepCard .card  {
+                    border: 1px solid transparent;
+                    border-radius: 8px;
+                    margin: 16px 0px;
+                    padding: 12px 16px;
+                }
+                
+                #googleKeepCard .noteTitle {
+                    font-weight: bold;
+                    margin: 0 0 14px 0;
+                    font-size: 120%;
+                }
+                
+                #googleKeepCard .noteLine  {
+                    margin-top: 6px;
+                    margin-bottom: 6px;
+                }
+                
+                #googleKeepCard hr {
+                    margin: 10px 0;
+                    border: 1px solid rgba(0,0,0,0.1);
+                }
+                
+                #googleKeepCard.dark {
+                    background-color: #202124;
+                }
+                #googleKeepCard.dark, #googleKeepCard.dark a, #googleKeepCard.dark a:visited, #googleKeepCard.dark a:link {
+                    color: #e8eaed;
+                }
+                
+                #googleKeepCard.dark .card.White {
+                    background-color: #202124;
+                    border-color: #5f6368;
+                }
+                #googleKeepCard.dark .card.Red {
+                    background-color: #5c2b29;
+                    border-color: #5c2b29;
+                }
+                #googleKeepCard.dark .card.Orange {
+                    background-color: #614a19;
+                    border-color: #614a19;
+                
+                }
+                #googleKeepCard.dark .card.Yellow {
+                    background-color: #635d19;
+                    border-color: #635d19;
+                }
+                #googleKeepCard.dark .card.Green {
+                    background-color: #345920;
+                    border-color: #345920;
+                }
+                #googleKeepCard.dark .card.Teal {
+                    background-color: #16504b;
+                    border-color: #16504b;
+                }
+                #googleKeepCard.dark .card.Blue {
+                    background-color: #2d555e;
+                    border-color: #2d555e;
+                }
+                #googleKeepCard.dark .card.DarkBlue {
+                    background-color: #1e3a5f;
+                    border-color: #1e3a5f;
+                }
+                #googleKeepCard.dark .card.Purple {
+                    background-color: #42275e;
+                    border-color: #42275e;
+                }
+                #googleKeepCard.dark .card.Pink {
+                    background-color: #5b2245;
+                    border-color: #5b2245;
+                }
+                #googleKeepCard.dark .card.Brown {
+                    background-color: #442f19;
+                    border-color: #442f19;
+                
+                }
+                #googleKeepCard.dark .card.Gray {
+                    background-color: #3c3f43;
+                    border-color: #3c3f43;
+                }
+                
+                #googleKeepCard.light {
+                    background-color: #fff;
+                }
+                
+                #googleKeepCard.light, #googleKeepCard.light a, #googleKeepCard.light a:visited, #googleKeepCard.light a:link {
+                    color: #202124;
+                }
+                #googleKeepCard.light .card.White {
+                    background-color: #fff;
+                    border-color: #e0e0e0;
+                }
+                #googleKeepCard.light .card.Red {
+                    background-color: #f28b82;
+                    border-color: #f28b82;
+                }
+                #googleKeepCard.light .card.Orange {
+                    background-color: #fbbc04;
+                    border-color: #fbbc04;
+                }
+                #googleKeepCard.light .card.Yellow {
+                    background-color: #fff475;
+                    border-color: #fff475;
+                }
+                #googleKeepCard.light .card.Green {
+                    background-color: #ccff90;
+                    border-color: #ccff90;
+                }
+                #googleKeepCard.light .card.Teal {
+                    background-color: #a7ffeb;
+                    border-color: #a7ffeb;
+                }
+                #googleKeepCard.light .card.Blue {
+                    background-color: #cbf0f8;
+                    border-color: #cbf0f8;
+                }
+                #googleKeepCard.light .card.DarkBlue {
+                    background-color: #aecbfa;
+                    border-color: #aecbfa;
+                }
+                #googleKeepCard.light .card.Purple {
+                    background-color: #d7aefb;
+                    border-color: #d7aefb;
+                }
+                #googleKeepCard.light .card.Pink {
+                    background-color: #fdcfe8;
+                    border-color: #fdcfe8;
+                }
+                #googleKeepCard.light .card.Brown {
+                    background-color: #e6c9a8;
+                    border-color: #e6c9a8;
+                }
+                #googleKeepCard.light .card.Gray {
+                    background-color: #e8eaed;
+                    border-color: #e8eaed;
+                }
+
+                #googleKeepCard .checked {
+                    color: #5f6368;
+                }
+                
+                #googleKeepCard .crossed {
+                    text-decoration: line-through;
+                }
+                
+                #googleKeepCard .checked.uncrossed {
+                    opacity: .35;
+                }
+                
+                #googleKeepCard .level-0 {
+                    margin-left: 24px;
+                }
+                #googleKeepCard .level-1 {
+                    margin-left: 44px;
+                }
+                #googleKeepCard .checked,  #googleKeepCard .unchecked {
+                    position: relative;
+                }
+                #googleKeepCard .checked::before,  #googleKeepCard .unchecked::before {
+                    content: '';
+                    width: 18px;
+                    height: 18px;
+                    position: absolute;
+                    left: -24px;
+                    opacity: 0.54;
+                    background-size: 18px 18px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    
+                }
+                #googleKeepCard.dark .checked::before {
+                    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNMTkgM0g1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMTZINVY1aDE0djE0eiIvPgogIDxwYXRoIGQ9Ik0xOCA5bC0xLjQtMS40LTYuNiA2LjYtMi42LTIuNkw2IDEzbDQgNHoiLz4KPC9zdmc+Cg==);
+                }
+                #googleKeepCard.dark .unchecked::before {
+                    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmZmZmZmIj4KICA8cGF0aCBkPSJNMTkgNXYxNEg1VjVoMTRtMC0ySDVjLTEuMSAwLTIgLjktMiAydjE0YzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJWNWMwLTEuMS0uOS0yLTItMnoiLz4KPC9zdmc+Cg==);
+                }
+                #googleKeepCard.light .checked::before {
+                    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDAwIj48cGF0aCBkPSJNMTkgM0g1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMTZINVY1aDE0djE0eiIvPgogIDxwYXRoIGQ9Ik0xOCA5bC0xLjQtMS40LTYuNiA2LjYtMi42LTIuNkw2IDEzbDQgNHoiLz4KPC9zdmc+Cg==);
+                }
+                #googleKeepCard.light .unchecked::before {
+                    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDAwIj4KICA8cGF0aCBkPSJNMTkgNXYxNEg1VjVoMTRtMC0ySDVjLTEuMSAwLTIgLjktMiAydjE0YzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJWNWMwLTEuMS0uOS0yLTItMnoiLz4KPC9zdmc+Cg==); 
+                }
+            
             </style>
             ${title}
             ${emptyScreen}
@@ -145,38 +301,54 @@ class GoogleKeepCard extends LitElement {
     }
 
     renderNote(note) {
-        return note.note_type === 'NodeType.List' ?
-            this.renderList(note) :
-            this.renderTextNote(note);
+        console.log(note.note_type, {note});
+        return html`
+<div class="card ${note['color']}">
+    <p class="noteTitle">${(typeof note['url']!= "undefined") ? html`<a target="_blank" href="${note['url']}">${note['title']}</a>` : html`${note['title']}` }</p>
+    ${note.note_type === 'NodeType.List' ? this.renderList(note) : this.renderTextNote(note)}
+</div>`
     }
 
     renderTextNote(note) {
         return html`
-<div class="noteBackground" style="background:${this.getColor(note['color'])};">
-    <p class="noteTitle">${(typeof note['url']!= "undefined") ? html`<a target="_blank" href="${note['url']}">${note['title']}</a>` : html`${note['title']}` }</p>
     <p class="noteBody">${note['lines'].map(line => this.renderLine(line))}</p>
-</div>`
+`
     }
 
     renderList(note) {
         const {show} = this._config;
         const showUnchecked = note['unchecked'].length && show.includes('unchecked');
         const showChecked = note['checked'].length && show.includes('checked');
+        console.log({result: this.renderList2(note), note});
         return html`
-<div class="noteBackground" style="background:${this.getColor(note['color'])};">
-    <p class="noteTitle">${(typeof note['url']!= "undefined") ? html`<a target="_blank" href="${note['url']}">${note['title']}</a>` : html`${note['title']}` }</p>
-    ${showUnchecked ? this.renderUncheckedList(note) : html``}
+    ${this.renderList2(note.children)}
     ${showUnchecked && showChecked ? html`<hr>` : html``}
-    ${showChecked ? this.renderCheckedList(note) : html``}
-</div>`
+    ${this.renderList2(note.children, true)}
+`
+    }
+
+    renderLine2(item, checked = false, level = 0) {
+        return html`<p class="noteLine ${checked? 'checked' : 'unchecked'} ${item.checked ? 'crossed' : 'uncrossed'} level-${level}">${item.text}</p>`;
+    }
+
+    renderList2(items, checked = false, level = 0) {
+        console.log(level, {items, checked, level});
+        if (!items?.length) {
+            return html``;
+        }
+        return html`${items?.filter(
+            c => checked ? (c.checked || c.children.some(cc => cc.checked)): !c.checked)
+        .map(
+            item => html`${this.renderLine2(item, checked, level)}${(item.children?.length ? this.renderList2(item.children, checked, level +1): '')}`
+        )}`;
     }
 
     renderUncheckedList(note) {
-        return html`<p class="noteBody">${note['unchecked'].map(line => this.renderLine(line))}</p>`;
+        return html`<p class="noteBody uncheck">${note['unchecked'].map(line => this.renderLine(line))}</p>`;
     }
 
     renderCheckedList(note) {
-        return html`<p class="noteBody">${note['children'].map(line => this.renderIfChecked(line))}</p>`;
+        return html`<p class="noteBody checked">${note['children'].map(line => this.renderIfChecked(line))}</p>`;
     }
 
     renderIfChecked(child) {
