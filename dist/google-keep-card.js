@@ -321,9 +321,9 @@ class GoogleKeepCard extends LitElement {
         const showChecked = note['checked'].length && show.includes('checked');
         console.log({result: this.renderList2(note), note});
         return html`
-    ${this.renderList2(note.children)}
+    ${showUnchecked ? this.renderList2(note.children) : html``}
     ${showUnchecked && showChecked ? html`<hr>` : html``}
-    ${this.renderList2(note.children, true)}
+    ${showChecked ? this.renderList2(note.children, true) : html``}
 `
     }
 
