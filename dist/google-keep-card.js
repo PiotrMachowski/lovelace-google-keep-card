@@ -18,7 +18,7 @@ class GoogleKeepCard extends LitElement {
     set hass(hass) {
         this._hass = hass;
     }
-    get hass(hass) {
+    get hass() {
         return this._hass;
     }
 
