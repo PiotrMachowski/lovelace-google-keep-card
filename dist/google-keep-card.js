@@ -1,52 +1,9 @@
 var LitElement = LitElement || Object.getPrototypeOf(customElements.get("home-assistant-main"));
 var html = LitElement.prototype.html;
 
-const themeLight = "light";
-const themeDark = "dark";
 const themes = ['light', 'dark', 'auto'];
-const colors = {
-    'White': ['#ffffff', '#2d2e30'],
-    'Red': ['#f28b82', '#5c2b29'],
-    'Orange': ['#fbbc04', '#614a19'],
-    'Yellow': ['#fff475', '#635d19'],
-    'Green': ['#ccff90', '#345920'],
-    'Teal': ['#a7ffeb', '#16504b'],
-    'Blue': ['#cbf0f8', '#2d555e'],
-    'DarkBlue': ['#aecbfa', '#1e3a5f'],
-    'Purple': ['#d7aefb', '#42275e'],
-    'Pink': ['#fdcfe8', '#5b2245'],
-    'Brown': ['#e6c9a8', '#442f19'],
-    'Gray': ['#e8eaed', '#3c3f43'],
-};
-const textColors = {
-    "light": "#000000",
-    "dark": "#ffffff"
-};
-const checkedColors = {
-    "light": "rgb(95, 99, 104)",
-    "dark": "rgb(154,160,166)"
-};
 
 class GoogleKeepCard extends LitElement {
-
-    getColor(colorName) {
-        const hex = colors[colorName][themes.indexOf(this._theme)];
-        const {r, g, b} = GoogleKeepCard.hexToRgb(hex);
-        return `rgba(${r}, ${g}, ${b}, ${this._alpha})`;
-    }
-    addAlphaToColor(hexColor) {
-        const {r, g, b} = GoogleKeepCard.hexToRgb(hexColor);
-        return `rgba(${r}, ${g}, ${b}, ${this._alpha})`;
-    }
-
-    getTextColor() {
-        return textColors[this._theme];
-    }
-
-    getCheckedColor() {
-        return checkedColors[this._theme];
-    }
-
     constructor() {
         super();
     }
@@ -60,6 +17,9 @@ class GoogleKeepCard extends LitElement {
 
     set hass(hass) {
         this._hass = hass;
+    }
+    get hass(hass) {
+        return this._hass;
     }
 
     setConfig(config) {
@@ -110,10 +70,31 @@ class GoogleKeepCard extends LitElement {
         <ha-card id="googleKeepCard" style="padding: 16px" class="${this._theme == 'auto'? (this._hass.themes.darkMode ? 'dark' : 'light') : this._theme}">
             <style>
                 #googleKeepCard .card  {
-                    border: 1px solid transparent;
-                    border-radius: 8px;
                     margin: 16px 0px;
                     padding: 12px 16px;
+                    position: relative;
+                }
+                #googleKeepCard .card:first-of-type {
+                    margin-top: 0;
+                }
+                #googleKeepCard .card:last-of-type {
+                    margin-bottom: 0;
+                }
+                
+                #googleKeepCard .card::before{
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    border: 1px solid transparent;
+                    border-radius: 8px;
+                    top: 0;
+                    bottom:0;
+                    left: 0;
+                    right: 0;
+                    opacity: ${this._alpha};
+                }
+                #googleKeepCard .card > * {
+                    position: relative;
                 }
                 
                 #googleKeepCard .noteTitle {
@@ -139,53 +120,53 @@ class GoogleKeepCard extends LitElement {
                     color: #e8eaed;
                 }
                 
-                #googleKeepCard.dark .card.White {
+                #googleKeepCard.dark .card.White::before {
                     background-color: #202124;
                     border-color: #5f6368;
                 }
-                #googleKeepCard.dark .card.Red {
+                #googleKeepCard.dark .card.Red::before {
                     background-color: #5c2b29;
                     border-color: #5c2b29;
                 }
-                #googleKeepCard.dark .card.Orange {
+                #googleKeepCard.dark .card.Orange::before {
                     background-color: #614a19;
                     border-color: #614a19;
                 
                 }
-                #googleKeepCard.dark .card.Yellow {
+                #googleKeepCard.dark .card.Yellow::before {
                     background-color: #635d19;
                     border-color: #635d19;
                 }
-                #googleKeepCard.dark .card.Green {
+                #googleKeepCard.dark .card.Green::before {
                     background-color: #345920;
                     border-color: #345920;
                 }
-                #googleKeepCard.dark .card.Teal {
+                #googleKeepCard.dark .card.Teal::before {
                     background-color: #16504b;
                     border-color: #16504b;
                 }
-                #googleKeepCard.dark .card.Blue {
+                #googleKeepCard.dark .card.Blue::before {
                     background-color: #2d555e;
                     border-color: #2d555e;
                 }
-                #googleKeepCard.dark .card.DarkBlue {
+                #googleKeepCard.dark .card.DarkBlue::before {
                     background-color: #1e3a5f;
                     border-color: #1e3a5f;
                 }
-                #googleKeepCard.dark .card.Purple {
+                #googleKeepCard.dark .card.Purple::before {
                     background-color: #42275e;
                     border-color: #42275e;
                 }
-                #googleKeepCard.dark .card.Pink {
+                #googleKeepCard.dark .card.Pink::before {
                     background-color: #5b2245;
                     border-color: #5b2245;
                 }
-                #googleKeepCard.dark .card.Brown {
+                #googleKeepCard.dark .card.Brown::before {
                     background-color: #442f19;
                     border-color: #442f19;
                 
                 }
-                #googleKeepCard.dark .card.Gray {
+                #googleKeepCard.dark .card.Gray::before {
                     background-color: #3c3f43;
                     border-color: #3c3f43;
                 }
@@ -197,51 +178,51 @@ class GoogleKeepCard extends LitElement {
                 #googleKeepCard.light, #googleKeepCard.light a, #googleKeepCard.light a:visited, #googleKeepCard.light a:link {
                     color: #202124;
                 }
-                #googleKeepCard.light .card.White {
+                #googleKeepCard.light .card.White::before {
                     background-color: #fff;
                     border-color: #e0e0e0;
                 }
-                #googleKeepCard.light .card.Red {
+                #googleKeepCard.light .card.Red::before {
                     background-color: #f28b82;
                     border-color: #f28b82;
                 }
-                #googleKeepCard.light .card.Orange {
+                #googleKeepCard.light .card.Orange::before {
                     background-color: #fbbc04;
                     border-color: #fbbc04;
                 }
-                #googleKeepCard.light .card.Yellow {
+                #googleKeepCard.light .card.Yellow::before {
                     background-color: #fff475;
                     border-color: #fff475;
                 }
-                #googleKeepCard.light .card.Green {
+                #googleKeepCard.light .card.Green::before {
                     background-color: #ccff90;
                     border-color: #ccff90;
                 }
-                #googleKeepCard.light .card.Teal {
+                #googleKeepCard.light .card.Teal::before {
                     background-color: #a7ffeb;
                     border-color: #a7ffeb;
                 }
-                #googleKeepCard.light .card.Blue {
+                #googleKeepCard.light .card.Blue::before {
                     background-color: #cbf0f8;
                     border-color: #cbf0f8;
                 }
-                #googleKeepCard.light .card.DarkBlue {
+                #googleKeepCard.light .card.DarkBlue::before {
                     background-color: #aecbfa;
                     border-color: #aecbfa;
                 }
-                #googleKeepCard.light .card.Purple {
+                #googleKeepCard.light .card.Purple::before {
                     background-color: #d7aefb;
                     border-color: #d7aefb;
                 }
-                #googleKeepCard.light .card.Pink {
+                #googleKeepCard.light .card.Pink::before {
                     background-color: #fdcfe8;
                     border-color: #fdcfe8;
                 }
-                #googleKeepCard.light .card.Brown {
+                #googleKeepCard.light .card.Brown::before {
                     background-color: #e6c9a8;
                     border-color: #e6c9a8;
                 }
-                #googleKeepCard.light .card.Gray {
+                #googleKeepCard.light .card.Gray::before {
                     background-color: #e8eaed;
                     border-color: #e8eaed;
                 }
@@ -301,89 +282,43 @@ class GoogleKeepCard extends LitElement {
     }
 
     renderNote(note) {
-        console.log(note.note_type, {note});
         return html`
-<div class="card ${note['color']}">
-    <p class="noteTitle">${(typeof note['url']!= "undefined") ? html`<a target="_blank" href="${note['url']}">${note['title']}</a>` : html`${note['title']}` }</p>
-    ${note.note_type === 'NodeType.List' ? this.renderList(note) : this.renderTextNote(note)}
-</div>`
+<div class="card ${note.color}">
+    <p class="noteTitle">${(typeof note.url != "undefined") ? html`<a target="_blank" href="${note.url}">${note.title}</a>` : html`${note.title}` }</p>
+    ${note.note_type === 'NodeType.List' ? this.renderListNote(note) : this.renderTextNote(note)}
+</div>`;
     }
 
     renderTextNote(note) {
         return html`
-    <p class="noteBody">${note['lines'].map(line => this.renderLine(line))}</p>
-`
+    <p class="noteBody">${note.lines.map(line => html`<div class="noteLine">${line}</br></div>`)}</p>
+`;
     }
 
-    renderList(note) {
+    renderListNote(note) {
         const {show} = this._config;
-        const showUnchecked = note['unchecked'].length && show.includes('unchecked');
-        const showChecked = note['checked'].length && show.includes('checked');
-        console.log({result: this.renderList2(note), note});
+        const showUnchecked = note.unchecked.length && show.includes('unchecked');
+        const showChecked = note.checked.length && show.includes('checked');
         return html`
-    ${showUnchecked ? this.renderList2(note.children) : html``}
+    ${showUnchecked ? this.renderListNoteLines(note.children) : html``}
     ${showUnchecked && showChecked ? html`<hr>` : html``}
-    ${showChecked ? this.renderList2(note.children, true) : html``}
-`
+    ${showChecked ? this.renderListNoteLines(note.children, true) : html``}
+`;
     }
 
-    renderLine2(item, checked = false, level = 0) {
+    renderListNoteLine(item, checked = false, level = 0) {
         return html`<p class="noteLine ${checked? 'checked' : 'unchecked'} ${item.checked ? 'crossed' : 'uncrossed'} level-${level}">${item.text}</p>`;
     }
 
-    renderList2(items, checked = false, level = 0) {
-        console.log(level, {items, checked, level});
-        if (!items?.length) {
+    renderListNoteLines(items, checked = false, level = 0) {
+        if (!items || !items.length) {
             return html``;
         }
-        return html`${items?.filter(
+        return html`${items.filter(
             c => checked ? (c.checked || c.children.some(cc => cc.checked)): !c.checked)
         .map(
-            item => html`${this.renderLine2(item, checked, level)}${(item.children?.length ? this.renderList2(item.children, checked, level +1): '')}`
+            item => html`${this.renderListNoteLine(item, checked, level)}${(item.children && item.children.length ? this.renderListNoteLines(item.children, checked, level + 1): '')}`
         )}`;
-    }
-
-    renderUncheckedList(note) {
-        return html`<p class="noteBody uncheck">${note['unchecked'].map(line => this.renderLine(line))}</p>`;
-    }
-
-    renderCheckedList(note) {
-        return html`<p class="noteBody checked">${note['children'].map(line => this.renderIfChecked(line))}</p>`;
-    }
-
-    renderIfChecked(child) {
-        let checkedChildren = child.children.filter(c => c.checked);
-        if (child.checked || checkedChildren.length > 0) {
-            return html`${this.renderLine('\u2611' + child.text, child.checked)}${checkedChildren.map(c => this.renderLine('  ' + '\u2611' + c.text, true))}`;
-        }
-        return html``;
-    }
-
-    renderLine(line, strikethrough = false) {
-        let trimmed = line.replace(/^ +/, '');
-        let trimmedLength = trimmed.length;
-        if (trimmedLength > 0) {
-            let prefix = '\xa0'.repeat((line.length - trimmedLength) * 2);
-            let suffix = trimmed.substr(1);
-            if (strikethrough) {
-                suffix = html`<s>${suffix}</s>`
-            }
-            if (trimmed[0] === '\u2610') {
-                trimmed = html`${prefix}<paper-checkbox>${suffix}</paper-checkbox>`;
-            } else if (trimmed[0] === '\u2611') {
-                trimmed = html`${prefix}<paper-checkbox checked>${suffix}</paper-checkbox>`;
-            }
-        }
-        return html`<div class="noteLine">${trimmed}</br></div>`;
-    }
-
-    static hexToRgb(hex) {
-        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
     }
 }
 
