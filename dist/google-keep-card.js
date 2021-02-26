@@ -41,6 +41,7 @@ class GoogleKeepCard extends LitElement {
         }
         this._theme = config.theme || 'auto';
         this._alpha = config.alpha || 1;
+        this._systemBox = !!config.systemBox;
         this._config = config;
     }
 
@@ -64,16 +65,36 @@ class GoogleKeepCard extends LitElement {
         if (!notes.length && this._config.hide_if_empty) {
             return html``;
         }
-        const title = this._config.title ? html`<div class="card-header" style="padding: 8px 0 16px 0;"><div class="name">${this._config.title}</div></div>` : html``;
+        const title = this._config.title && !this._systemBox ? html`<div class="card-header" style="padding: 8px 0 16px 0;"><div class="name">${this._config.title}</div></div>` : html``;
         const emptyScreen = notes.length ? html`` : html`<p style="text-align: center">No notes found!</p>`;
         return html`
-        <ha-card id="googleKeepCard" style="padding: 16px" class="${this._theme == 'auto'? (this._hass.themes.darkMode ? 'dark' : 'light') : this._theme}">
+        <ha-card id="googleKeepCard" class="${this._theme == 'auto'? (this._hass.themes.darkMode ? 'dark' : 'light') : this._theme} ${this._systemBox ? 'systemBox': ''}">
             <style>
+                #googleKeepCard {
+                    padding: 16px;
+                }
+                #googleKeepCard.systemBox {
+                    background-color: transparent !important;
+                    border: none;
+                    box-shadow: none;
+                    margin: 0px;
+                    padding: 0px;
+                }
+                    
                 #googleKeepCard .card  {
                     margin: 16px 0px;
                     padding: 12px 16px;
                     position: relative;
                 }
+                
+                #googleKeepCard.systemBox .card  {
+                    margin: var( --vertical-stack-card-margin, var(--stack-card-margin, 8px 0) );
+                }
+                #googleKeepCard.systemBox .card::before  {
+                    border-radius: var(--ha-card-border-radius, 4px);
+                    box-shadow: var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
+                }
+                    
                 #googleKeepCard .card:first-of-type {
                     margin-top: 0;
                 }
