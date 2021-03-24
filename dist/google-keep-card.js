@@ -42,6 +42,8 @@ class GoogleKeepCard extends LitElement {
         this._theme = config.theme || 'auto';
         this._alpha = config.alpha || 1;
         this._systemBox = !!config.systemBox;
+        this._forceBackground = !!config.forceBackground;
+        this._smallTitleMargin = !!config.smallTitleMargin;
         this._config = config;
     }
 
@@ -65,13 +67,14 @@ class GoogleKeepCard extends LitElement {
         if (!notes.length && this._config.hide_if_empty) {
             return html``;
         }
-        const title = this._config.title && !this._systemBox ? html`<div class="card-header" style="padding: 8px 0 16px 0;"><div class="name">${this._config.title}</div></div>` : html``;
+        // style="padding: 8px 0 16px 0;"
+        const title = this._config.title && !this._systemBox ? html`<h1 class="card-header ${this._smallTitleMargin && 'smallTitleMargin'}"><div class="name">${this._config.title}</div></div>` : html``;
         const emptyScreen = notes.length ? html`` : html`<p style="text-align: center">No notes found!</p>`;
         return html`
-        <ha-card id="googleKeepCard" class="${this._theme == 'auto'? (this._hass.themes.darkMode ? 'dark' : 'light') : this._theme} ${this._systemBox ? 'systemBox': ''}">
+        <ha-card id="googleKeepCard" class="${this._theme == 'auto'? (this._hass.themes.darkMode ? 'dark' : 'light') : this._theme} ${this._systemBox && 'systemBox'} ${this._forceBackground && 'forceBackground'}">
             <style>
-                #googleKeepCard {
-                    padding: 16px;
+                #googleKeepCard .content {
+                    padding: 0 16px 16px;
                 }
                 #googleKeepCard.systemBox {
                     background-color: transparent !important;
@@ -80,11 +83,16 @@ class GoogleKeepCard extends LitElement {
                     margin: 0px;
                     padding: 0px;
                 }
+                
+                #googleKeepCard .smallTitleMargin {
+                    padding-bottom: 4px;
+                }
                     
                 #googleKeepCard .card  {
                     margin: 16px 0px;
                     padding: 12px 16px;
                     position: relative;
+                    overflow-wrap: break-word;
                 }
                 
                 #googleKeepCard.systemBox .card  {
@@ -127,6 +135,7 @@ class GoogleKeepCard extends LitElement {
                 #googleKeepCard .noteLine  {
                     margin-top: 6px;
                     margin-bottom: 6px;
+                    min-height: 20px;
                 }
                 
                 #googleKeepCard hr {
@@ -134,7 +143,7 @@ class GoogleKeepCard extends LitElement {
                     border: 1px solid rgba(0,0,0,0.1);
                 }
                 
-                #googleKeepCard.dark {
+                #googleKeepCard.forceBackground.dark {
                     background-color: #202124;
                 }
                 #googleKeepCard.dark, #googleKeepCard.dark a, #googleKeepCard.dark a:visited, #googleKeepCard.dark a:link {
@@ -192,7 +201,7 @@ class GoogleKeepCard extends LitElement {
                     border-color: #3c3f43;
                 }
                 
-                #googleKeepCard.light {
+                #googleKeepCard.forceBackground.light {
                     background-color: #fff;
                 }
                 
@@ -297,7 +306,9 @@ class GoogleKeepCard extends LitElement {
             </style>
             ${title}
             ${emptyScreen}
-            ${notes.map(note => this.renderNote(note))}
+            <div class="content">
+                ${notes.map(note => this.renderNote(note))}
+            </div>
         </ha-card>
         `;
     }
