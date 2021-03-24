@@ -16,11 +16,13 @@ This is a companion card for [Google Keep sensor](https://github.com/PiotrMachow
 | --- | --- | --- | --- | --- |
 | `title` | `string` | `False` | - | Desired title of a card |
 | `entity` | `string` | `True` | - | ID of Google Keep sensor |
-| `theme` | `string` | `False` | `light` | Theme to be used for notes. Possible values: `light`, `dark` |
+| `theme` | `string` | `False` | `light` | Theme to be used for notes. Possible values: `light`, `dark`, `auto` |
 | `alpha` | `float` | `False` | 1 | Level of transparency used for notes (0 - fully transparent, 1 - not transparent) |
 | `show` | `list` | `True` | - | List of sections that should be displayed. Possible values: `checked`, `unchecked` |
 | `hide_if_empty` | `boolean` | `False` | `false` | Enables hiding cart when there are no notes found. Possible values: `true`, `false` |
-
+| `systemBox` | `boolean` | `False` | `false` | Make each note a HA tile instead of emcapsulate them into a HA tile |
+| `forceBackground` | `boolean` | `False` | `false` | Force the background to white/black according to the theme |
+| `smallTitleMargin` | `boolean` | `False` | `false` | Allow to reduce the bottom margin of the title even further |
 
 ## Example usage:
 ```yaml
