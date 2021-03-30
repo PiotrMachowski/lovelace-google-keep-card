@@ -90,7 +90,6 @@ class GoogleKeepCard extends LitElement {
                     padding: 12px 16px;
                     position: relative;
                     overflow-wrap: break-word;
-                    opacity: ${this._alpha};
                 }
                 #googleKeepCard.systemBox .card  {
                     margin: var(--vertical-stack-card-margin, var(--stack-card-margin, 8px 0) );
@@ -115,6 +114,7 @@ class GoogleKeepCard extends LitElement {
                     bottom:0;
                     left: 0;
                     right: 0;
+                    opacity: ${this._alpha};
                 }
                 #googleKeepCard .card > * {
                     position: relative;
