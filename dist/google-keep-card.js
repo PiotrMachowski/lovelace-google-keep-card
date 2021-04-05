@@ -98,6 +98,9 @@ class GoogleKeepCard extends LitElement {
                     border-radius: var(--ha-card-border-radius, 4px);
                     box-shadow: var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) );
                 }   
+                #googleKeepCard.systemBox .content {
+                    padding: 0;
+                }
                 #googleKeepCard .card:first-of-type {
                     margin-top: 0;
                 }
