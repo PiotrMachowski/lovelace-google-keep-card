@@ -25,6 +25,7 @@ This is a companion card for [Google Keep sensor](https://github.com/PiotrMachow
 | `small_title_margin` | `boolean` | `False` | `false` | Reduce the bottom margin of the title |
 
 ## Example usage:
+Add this to your "configuration.yaml"
 ```yaml
 views:
 - name: Example
