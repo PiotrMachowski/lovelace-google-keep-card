@@ -55,11 +55,11 @@ views:
 
 ### HACS
 1. Find this card in "Frontend" section and install it 
-2. Add card to resources:
+2. Add card to resources in the Locelace dashboard:
     ```yaml
     resources:
       - url: /hacsfiles/google_keep_card/google-keep-card.js
-        type: module
+        type: JavaScript Module
     ```
 
 ## FAQ
